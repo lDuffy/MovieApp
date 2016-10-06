@@ -1,4 +1,4 @@
-package com.movie.liam.movieapp;
+package com.movie.liam.movieapp.main;
 
 /**
  * Created by lduf0001 on 06/10/2016.
