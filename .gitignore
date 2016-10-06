@@ -1,0 +1,20 @@
+*.iml
+.gradle
+/local.properties
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+*.apk
+*.ap_
+*.dex
+# Java class files
+*.class
+bin/
+gen/
+out/
+.idea/
+proguard/
+*.log
+.navigation/
+captures/
