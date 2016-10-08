@@ -18,6 +18,7 @@ import javax.inject.Inject;
 
 import com.github.pwittchen.infinitescroll.library.InfiniteScrollListener;
 import com.movie.liam.movieapp.R;
+import com.movie.liam.movieapp.adapter.RecycleViewClickListener;
 import com.movie.liam.movieapp.adapter.RecyclerViewAdapter;
 import com.movie.liam.movieapp.base.InjectedFragment;
 import com.movie.liam.movieapp.dagger.MainComponent;
@@ -70,6 +71,11 @@ public class MainFragment extends InjectedFragment<MainComponent> implements Mai
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(viewAdapter);
         recyclerView.addOnScrollListener(infinateScrollListener());
+        recyclerView.addOnItemTouchListener(
+                new RecycleViewClickListener(getContext(), (view, position) -> {
+
+                })
+        );
     }
 
     @Override
@@ -95,7 +101,7 @@ public class MainFragment extends InjectedFragment<MainComponent> implements Mai
         int index = itemList.size();
         itemList.addAll(newItems);
         viewAdapter.setItems(itemList);
-        for(int i=index;i<itemList.size();i++){
+        for (int i = index; i < itemList.size(); i++) {
             viewAdapter.notifyItemInserted(index);
         }
     }

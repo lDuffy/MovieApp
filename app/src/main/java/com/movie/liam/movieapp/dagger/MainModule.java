@@ -1,12 +1,14 @@
 package com.movie.liam.movieapp.dagger;
 
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.movie.liam.movieapp.adapter.RecyclerViewAdapter;
 import com.movie.liam.movieapp.api.Api;
 import com.movie.liam.movieapp.main.MainContract;
 import com.movie.liam.movieapp.main.MainPresenterImpl;
+import com.movie.liam.movieapp.utils.AppLauncher;
 import com.movie.liam.movieapp.utils.ConfigurationManager;
+import com.movie.liam.movieapp.utils.Launcher;
 
 import dagger.Module;
 import dagger.Provides;
@@ -18,10 +20,15 @@ import dagger.Provides;
 @Module
 public class MainModule {
 
-    private final FragmentActivity activity;
+    private final AppCompatActivity activity;
 
-    public MainModule(FragmentActivity activity) {
+    public MainModule(AppCompatActivity activity) {
         this.activity = activity;
+    }
+
+    @Provides
+    Launcher providesLauncher() {
+        return new AppLauncher(activity);
     }
 
     @Provides

@@ -10,10 +10,13 @@ import com.movie.liam.movieapp.dagger.DaggerMainComponent;
 import com.movie.liam.movieapp.dagger.MainComponent;
 import com.movie.liam.movieapp.dagger.MainModule;
 import com.movie.liam.movieapp.utils.ConfigurationManager;
+import com.movie.liam.movieapp.utils.Launcher;
 
 public class MainActivity extends InjectedActivity<MainComponent> {
 
     @Inject ConfigurationManager configurationManager;
+    @Inject Launcher launcher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,9 +24,7 @@ public class MainActivity extends InjectedActivity<MainComponent> {
         getComponent().inject(this);
         configurationManager.fetchConfiguration();
         if (null == savedInstanceState) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.event_create_container, MainFragment.newInstance())
-                    .commitAllowingStateLoss();
+            launcher.openHome();
         }
     }
 

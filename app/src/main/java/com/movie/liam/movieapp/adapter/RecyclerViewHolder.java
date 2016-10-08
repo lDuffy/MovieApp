@@ -10,17 +10,13 @@ import com.movie.liam.movieapp.R;
  * Created by lduf0001 on 08/10/2016.
  */
 
-public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
     public ImageView photo;
 
     public RecyclerViewHolder(View itemView) {
         super(itemView);
-        itemView.setOnClickListener(this);
-        photo = (ImageView)itemView.findViewById(R.id.photo);
+        photo = (ImageView) itemView.findViewById(R.id.photo);
     }
 
-    @Override
-    public void onClick(View view) {
-    }
 }
