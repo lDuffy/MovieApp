@@ -1,5 +1,7 @@
 package com.movie.liam.movieapp.main;
 
+import com.movie.liam.movieapp.model.Movies;
+
 /**
  * Created by lduf0001 on 06/10/2016.
  */
@@ -7,8 +9,9 @@ package com.movie.liam.movieapp.main;
 public class MainContract {
 
     interface MainView {
-        void showError();
-        void showToastComplete();
+        void showError(String error);
+        void populateList(Movies movies);
+        void setProgressVisible(int visibility);
     }
 
     public interface MainPresenter {
