@@ -23,6 +23,7 @@ import com.movie.liam.movieapp.adapter.RecyclerViewAdapter;
 import com.movie.liam.movieapp.base.InjectedFragment;
 import com.movie.liam.movieapp.dagger.MainComponent;
 import com.movie.liam.movieapp.model.Results;
+import com.movie.liam.movieapp.utils.Launcher;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -36,6 +37,7 @@ public class MainFragment extends InjectedFragment<MainComponent> implements Mai
 
     @Inject MainContract.MainPresenter mainPresenter;
     @Inject RecyclerViewAdapter viewAdapter;
+    @Inject Launcher launcher;
     GridLayoutManager gridLayoutManager;
 
     List<Results> itemList = new ArrayList<>();
@@ -73,7 +75,7 @@ public class MainFragment extends InjectedFragment<MainComponent> implements Mai
         recyclerView.addOnScrollListener(infinateScrollListener());
         recyclerView.addOnItemTouchListener(
                 new RecycleViewClickListener(getContext(), (view, position) -> {
-
+                    launcher.openDetail(itemList.get(position));
                 })
         );
     }

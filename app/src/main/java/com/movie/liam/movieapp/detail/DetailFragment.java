@@ -7,10 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.movie.liam.movieapp.R;
+import com.movie.liam.movieapp.model.Results;
 
 public class DetailFragment extends Fragment {
 
-    public static DetailFragment newInstance(String param1, String param2) {
+    public static DetailFragment newInstance(Results results) {
         DetailFragment fragment = new DetailFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);

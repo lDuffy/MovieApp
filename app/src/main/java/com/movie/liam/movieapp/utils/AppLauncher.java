@@ -6,7 +6,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.movie.liam.movieapp.R;
+import com.movie.liam.movieapp.detail.DetailFragment;
 import com.movie.liam.movieapp.main.MainFragment;
+import com.movie.liam.movieapp.model.Results;
 
 /**
  * Created by lduf0001 on 08/10/2016.
@@ -26,14 +28,13 @@ public class AppLauncher implements Launcher {
         fragmentTransaction.commit();
     }
 
-
     @Override
     public void openHome() {
         showFragment(MainFragment.newInstance());
     }
 
     @Override
-    public void openDetail() {
-
+    public void openDetail(Results results) {
+        showFragment(DetailFragment.newInstance(results));
     }
 }
