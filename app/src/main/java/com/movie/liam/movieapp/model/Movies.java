@@ -1,6 +1,6 @@
 package com.movie.liam.movieapp.model;
 
-import java.util.Arrays;
+import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class Movies {
-    private Results[] results;
+    private List<Results> results;
 
     private String page;
     @SerializedName("total_pages")
@@ -17,7 +17,7 @@ public class Movies {
     @SerializedName("total_results")
     private String totalResults;
 
-    public Results[] getResults() {
+    public List<Results> getResults() {
         return results;
     }
 
@@ -36,7 +36,7 @@ public class Movies {
     @Override
     public String toString() {
         return "Movies{" +
-                "results=" + Arrays.toString(results) +
+                "results=" + results +
                 ", page='" + page + '\'' +
                 ", totalPages='" + totalPages + '\'' +
                 ", totalResults='" + totalResults + '\'' +

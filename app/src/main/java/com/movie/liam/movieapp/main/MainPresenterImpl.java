@@ -5,6 +5,7 @@ import android.view.View;
 import javax.inject.Inject;
 
 import com.movie.liam.movieapp.api.Api;
+import com.movie.liam.movieapp.model.Configuration;
 import com.movie.liam.movieapp.model.Movies;
 
 import rx.Subscriber;
@@ -20,12 +21,12 @@ public class MainPresenterImpl implements MainContract.MainPresenter {
     Api api;
     MainContract.MainView view;
     Movies movies;
+    public static Configuration configuration;
 
     @Inject
     public MainPresenterImpl(Api api) {
         this.api = api;
         movies = new Movies();
-
     }
 
     @Override
@@ -41,6 +42,26 @@ public class MainPresenterImpl implements MainContract.MainPresenter {
     @Override
     public void fetchDate() {
         view.setProgressVisible(View.VISIBLE);
+
+        api.getConfiguration().subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Configuration>() {
+                    @Override
+                    public void onCompleted() {
+                        view.setProgressVisible(View.GONE);
+                    }
+
+                    @Override
+                    public final void onError(Throwable e) {
+                        view.showError(e.toString());
+                    }
+
+                    @Override
+                    public final void onNext(Configuration response) {
+                        configuration = response;
+                    }
+                });
+
         api.list("1").subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Movies>() {
@@ -56,6 +77,7 @@ public class MainPresenterImpl implements MainContract.MainPresenter {
 
                     @Override
                     public final void onNext(Movies response) {
+                        movies = response;
                         view.populateList(response);
                     }
                 });
