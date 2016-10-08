@@ -1,6 +1,6 @@
 package com.movie.liam.movieapp.model;
 
-import java.util.Arrays;
+import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -9,17 +9,21 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class Image {
+
+    public enum Type{
+        POSTER,BACKDROP,STILL,LOGO
+    }
     @SerializedName("poster_sizes")
-    private String[] posterSizes;
+    private List<String> posterSizes;
 
     @SerializedName("backdrop_sizes")
-    private String[] backdropSizes;
+    private List<String> backdropSizes;
 
     @SerializedName("still_sizes")
-    private String[] stillSizes;
+    private List<String> stillSizes;
 
     @SerializedName("logo_sizes")
-    private String[] logoSizes;
+    private List<String> logoSizes;
 
     @SerializedName("secure_base_url")
     private String secureBaseUrl;
@@ -28,21 +32,21 @@ public class Image {
     private String baseUrl;
 
     @SerializedName("profile_sizes")
-    private String[] profileSizes;
+    private List<String> profileSizes;
 
-    public String[] getPosterSizes() {
+    public List<String> getPosterSizes() {
         return posterSizes;
     }
 
-    public String[] getBackdropSizes() {
+    public List<String> getBackdropSizes() {
         return backdropSizes;
     }
 
-    public String[] getStillSizes() {
+    public List<String> getStillSizes() {
         return stillSizes;
     }
 
-    public String[] getLogoSizes() {
+    public List<String> getLogoSizes() {
         return logoSizes;
     }
 
@@ -54,20 +58,20 @@ public class Image {
         return baseUrl;
     }
 
-    public String[] getProfileSizes() {
+    public List<String> getProfileSizes() {
         return profileSizes;
     }
 
     @Override
     public String toString() {
         return "Image{" +
-                "posterSizes=" + Arrays.toString(posterSizes) +
-                ", backdropSizes=" + Arrays.toString(backdropSizes) +
-                ", stillSizes=" + Arrays.toString(stillSizes) +
-                ", logoSizes=" + Arrays.toString(logoSizes) +
+                "posterSizes=" + posterSizes +
+                ", backdropSizes=" + backdropSizes +
+                ", stillSizes=" + stillSizes +
+                ", logoSizes=" + logoSizes +
                 ", secureBaseUrl='" + secureBaseUrl + '\'' +
                 ", baseUrl='" + baseUrl + '\'' +
-                ", profileSizes=" + Arrays.toString(profileSizes) +
+                ", profileSizes=" + profileSizes +
                 '}';
     }
 }

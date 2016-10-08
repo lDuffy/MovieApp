@@ -2,9 +2,11 @@ package com.movie.liam.movieapp.dagger;
 
 import android.support.v4.app.FragmentActivity;
 
+import com.movie.liam.movieapp.adapter.RecyclerViewAdapter;
 import com.movie.liam.movieapp.api.Api;
 import com.movie.liam.movieapp.main.MainContract;
 import com.movie.liam.movieapp.main.MainPresenterImpl;
+import com.movie.liam.movieapp.utils.ConfigurationManager;
 
 import dagger.Module;
 import dagger.Provides;
@@ -25,5 +27,10 @@ public class MainModule {
     @Provides
     MainContract.MainPresenter providesMainPresenter(Api api) {
         return new MainPresenterImpl(api);
+    }
+
+    @Provides
+    RecyclerViewAdapter providesRecycleViewAdapter(ConfigurationManager configurationManager){
+        return new RecyclerViewAdapter(activity, configurationManager);
     }
 }

@@ -34,9 +34,9 @@ public class MainFragment extends InjectedFragment<MainComponent> implements Mai
     @Bind(R.id.search_result) public RecyclerView rView;
 
     @Inject MainContract.MainPresenter mainPresenter;
+    @Inject RecyclerViewAdapter viewAdapter;
 
     List<Results> itemList = new ArrayList<>();
-    RecyclerViewAdapter viewAdapter;
 
 
     public static Fragment newInstance() {
@@ -63,8 +63,6 @@ public class MainFragment extends InjectedFragment<MainComponent> implements Mai
 
         rView.setHasFixedSize(true);
         rView.setLayoutManager(lLayout);
-
-        viewAdapter = new RecyclerViewAdapter(getActivity(), itemList);
         rView.setAdapter(viewAdapter);
     }
 
@@ -91,6 +89,7 @@ public class MainFragment extends InjectedFragment<MainComponent> implements Mai
     public void populateList(Movies movies) {
         itemList.clear();
         itemList.addAll(movies.getResults());
+        viewAdapter.setItems(itemList);
         viewAdapter.notifyDataSetChanged();
     }
 

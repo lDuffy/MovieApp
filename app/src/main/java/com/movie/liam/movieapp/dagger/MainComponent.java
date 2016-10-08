@@ -1,5 +1,6 @@
 package com.movie.liam.movieapp.dagger;
 
+import com.movie.liam.movieapp.main.MainActivity;
 import com.movie.liam.movieapp.main.MainFragment;
 
 import dagger.Component;
@@ -11,5 +12,6 @@ import dagger.Component;
 @PerActivity
 @Component(modules = MainModule.class, dependencies = {AppComponent.class})
 public interface MainComponent {
+    void inject(MainActivity mainActivity);
     void inject(MainFragment mainFragment);
 }

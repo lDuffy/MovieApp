@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.movie.liam.movieapp.api.Api;
 import com.movie.liam.movieapp.rest.RestService;
+import com.movie.liam.movieapp.utils.ConfigurationManager;
 
 import dagger.Module;
 import dagger.Provides;
@@ -50,6 +51,12 @@ public class AppModule {
     @Singleton
     Api providesApi() {
         return RestService.getApi();
+    }
+
+    @Provides
+    @Singleton
+    ConfigurationManager providesUrlGenerator(Context context, Api api){
+        return new ConfigurationManager(context, api);
     }
 }
 

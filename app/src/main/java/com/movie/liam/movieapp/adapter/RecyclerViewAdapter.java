@@ -8,8 +8,13 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import com.movie.liam.movieapp.R;
+import com.movie.liam.movieapp.model.Image;
 import com.movie.liam.movieapp.model.Results;
+import com.movie.liam.movieapp.utils.ConfigurationManager;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by lduf0001 on 08/10/2016.
@@ -19,10 +24,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
     private List<Results> itemList;
     private Context context;
+    private ConfigurationManager configurationManager;
 
-    public RecyclerViewAdapter(Context context, List<Results> itemList) {
-        this.itemList = itemList;
+    @Inject
+    public RecyclerViewAdapter(Context context, ConfigurationManager configurationManager) {
         this.context = context;
+        this.configurationManager = configurationManager;
     }
 
     @Override
@@ -33,10 +40,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
+        if (null == itemList) {
+            return;
+        }
+        String path = configurationManager.getUrl(itemList.get(position).getPosterPath(), Image.Type.POSTER);
+        Picasso.with(context).load(path).into(holder.photo);
+    }
+
+    public void setItems(List<Results> itemList) {
+        this.itemList = itemList;
     }
 
     @Override
     public int getItemCount() {
+        if (null == itemList) {
+            return 0;
+        }
         return itemList.size();
     }
 }

@@ -18,7 +18,7 @@ public class Configuration {
         return changeKeys;
     }
 
-    public Image getImages() {
+    public Image getImage() {
         return images;
     }
 
