@@ -10,7 +10,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class Movies {
     private List<Results> results;
-
     private String page;
     @SerializedName("total_pages")
     private String totalPages;
@@ -23,6 +22,14 @@ public class Movies {
 
     public String getPage() {
         return page;
+    }
+
+    public void incrementPage() {
+        if (0 > page.compareTo(totalPages)) {
+            int pageIndex = Integer.parseInt(page);
+            pageIndex += 1;
+            page = String.valueOf(pageIndex);
+        }
     }
 
     public String getTotalPages() {
