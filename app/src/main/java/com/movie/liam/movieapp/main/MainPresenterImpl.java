@@ -2,12 +2,13 @@ package com.movie.liam.movieapp.main;
 
 import android.view.View;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 
 import com.movie.liam.movieapp.api.Api;
 import com.movie.liam.movieapp.model.Movies;
 
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -17,9 +18,10 @@ import rx.schedulers.Schedulers;
 
 public class MainPresenterImpl implements MainContract.MainPresenter {
 
-    Api api;
-    MainContract.MainView view;
-    Movies movies;
+    public static final String FIRST_PAGE = "1";
+    private MainContract.MainView view;
+    private Movies movies;
+    private Api api;
 
 
     @Inject
@@ -42,24 +44,29 @@ public class MainPresenterImpl implements MainContract.MainPresenter {
     public void fetchDate() {
         view.setProgressVisible(View.VISIBLE);
 
-        api.list("1").subscribeOn(Schedulers.newThread())
+        api.list(movies.getPage())
+                .subscribeOn(Schedulers.newThread())
+                .debounce(3, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Movies>() {
-                    @Override
-                    public void onCompleted() {
-                        view.setProgressVisible(View.GONE);
-                    }
+                .subscribe(this::setResponse,
+                        throwable -> view.showError(throwable.toString()),
+                        () -> view.setProgressVisible(View.GONE));
+    }
 
-                    @Override
-                    public final void onError(Throwable e) {
-                        view.showError(e.toString());
-                    }
+    private void setResponse(Movies response) {
+        setMovieToResponse(response);
+        view.populateList(response.getResults());
+    }
 
-                    @Override
-                    public final void onNext(Movies response) {
-                        movies = response;
-                        view.populateList(response);
-                    }
-                });
+    private void setMovieToResponse(Movies response) {
+        if (FIRST_PAGE.equals(response.getPage())) {
+            movies = response;
+        }
+    }
+
+    @Override
+    public void fetchMoreData() {
+        movies.incrementPage();
+        fetchDate();
     }
 }

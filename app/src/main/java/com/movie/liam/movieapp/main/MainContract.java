@@ -1,6 +1,8 @@
 package com.movie.liam.movieapp.main;
 
-import com.movie.liam.movieapp.model.Movies;
+import java.util.List;
+
+import com.movie.liam.movieapp.model.Results;
 
 /**
  * Created by lduf0001 on 06/10/2016.
@@ -10,7 +12,7 @@ public class MainContract {
 
     interface MainView {
         void showError(String error);
-        void populateList(Movies movies);
+        void populateList(List<Results> movies);
         void setProgressVisible(int visibility);
     }
 
@@ -18,5 +20,6 @@ public class MainContract {
         void onViewAttached(MainView view);
         void onViewDetached();
         void fetchDate();
+        void fetchMoreData();
     }
 }

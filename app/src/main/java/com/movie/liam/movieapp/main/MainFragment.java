@@ -16,11 +16,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import com.github.pwittchen.infinitescroll.library.InfiniteScrollListener;
 import com.movie.liam.movieapp.R;
 import com.movie.liam.movieapp.adapter.RecyclerViewAdapter;
 import com.movie.liam.movieapp.base.InjectedFragment;
 import com.movie.liam.movieapp.dagger.MainComponent;
-import com.movie.liam.movieapp.model.Movies;
 import com.movie.liam.movieapp.model.Results;
 
 import butterknife.Bind;
@@ -31,10 +31,11 @@ import butterknife.ButterKnife;
  */
 public class MainFragment extends InjectedFragment<MainComponent> implements MainContract.MainView {
     @Bind(R.id.progress) public ProgressBar progressIndicator;
-    @Bind(R.id.search_result) public RecyclerView rView;
+    @Bind(R.id.search_result) public RecyclerView recyclerView;
 
     @Inject MainContract.MainPresenter mainPresenter;
     @Inject RecyclerViewAdapter viewAdapter;
+    GridLayoutManager gridLayoutManager;
 
     List<Results> itemList = new ArrayList<>();
 
@@ -47,6 +48,7 @@ public class MainFragment extends InjectedFragment<MainComponent> implements Mai
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getComponent().inject(this);
+        setRetainInstance(true);
     }
 
     @Override
@@ -59,11 +61,15 @@ public class MainFragment extends InjectedFragment<MainComponent> implements Mai
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        GridLayoutManager lLayout = new GridLayoutManager(getActivity(), 3);
+        setupViewAdapter();
+    }
 
-        rView.setHasFixedSize(true);
-        rView.setLayoutManager(lLayout);
-        rView.setAdapter(viewAdapter);
+    private void setupViewAdapter() {
+        gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setAdapter(viewAdapter);
+        recyclerView.addOnScrollListener(infinateScrollListener());
     }
 
     @Override
@@ -71,7 +77,6 @@ public class MainFragment extends InjectedFragment<MainComponent> implements Mai
         super.onResume();
         mainPresenter.onViewAttached(this);
         mainPresenter.fetchDate();
-
     }
 
     @Override
@@ -86,15 +91,26 @@ public class MainFragment extends InjectedFragment<MainComponent> implements Mai
     }
 
     @Override
-    public void populateList(Movies movies) {
-        itemList.clear();
-        itemList.addAll(movies.getResults());
+    public void populateList(List<Results> newItems) {
+        int index = itemList.size();
+        itemList.addAll(newItems);
         viewAdapter.setItems(itemList);
-        viewAdapter.notifyDataSetChanged();
+        for(int i=index;i<itemList.size();i++){
+            viewAdapter.notifyItemInserted(index);
+        }
     }
 
     @Override
     public void setProgressVisible(int visibility) {
         progressIndicator.setVisibility(visibility);
+    }
+
+    private InfiniteScrollListener infinateScrollListener() {
+        return new InfiniteScrollListener(1, gridLayoutManager) {
+            @Override
+            public void onScrolledToEnd(int firstVisibleItemPosition) {
+                mainPresenter.fetchMoreData();
+            }
+        };
     }
 }
