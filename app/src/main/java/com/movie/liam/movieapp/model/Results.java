@@ -1,5 +1,8 @@
 package com.movie.liam.movieapp.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Arrays;
 
 import com.google.gson.annotations.SerializedName;
@@ -7,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by lduf0001 on 06/10/2016.
  */
-public class Results {
+public class Results implements Parcelable {
     @SerializedName("vote_average")
     private String voteAverage;
     @SerializedName("backdrop_path")
@@ -83,16 +86,8 @@ public class Results {
         return video;
     }
 
-    public void setVideo(String video) {
-        this.video = video;
-    }
-
     public String getPopularity() {
         return popularity;
-    }
-
-    public void setPopularity(String popularity) {
-        this.popularity = popularity;
     }
 
     @Override
@@ -115,4 +110,58 @@ public class Results {
                 '}';
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(voteAverage);
+        dest.writeString(backdropPath);
+        dest.writeString(adult);
+        dest.writeString(id);
+        dest.writeString(title);
+        dest.writeString(overview);
+        dest.writeString(originalLanguage);
+        dest.writeStringArray(genreIds);
+        dest.writeString(releaseDate);
+        dest.writeString(originalTitle);
+        dest.writeString(voteCount);
+        dest.writeString(posterPath);
+        dest.writeString(video);
+        dest.writeString(popularity);
+    }
+
+    public Results() {
+    }
+
+    protected Results(Parcel in) {
+       voteAverage = in.readString();
+       backdropPath = in.readString();
+       adult = in.readString();
+       id = in.readString();
+       title = in.readString();
+       overview = in.readString();
+       originalLanguage = in.readString();
+       genreIds = in.createStringArray();
+       releaseDate = in.readString();
+       originalTitle = in.readString();
+       voteCount = in.readString();
+       posterPath = in.readString();
+       video = in.readString();
+       popularity = in.readString();
+    }
+
+    public static final Parcelable.Creator<Results> CREATOR = new Parcelable.Creator<Results>() {
+        @Override
+        public Results createFromParcel(Parcel source) {
+            return new Results(source);
+        }
+
+        @Override
+        public Results[] newArray(int size) {
+            return new Results[size];
+        }
+    };
 }

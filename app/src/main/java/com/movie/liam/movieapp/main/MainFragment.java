@@ -3,9 +3,13 @@ package com.movie.liam.movieapp.main;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -28,12 +32,15 @@ import com.movie.liam.movieapp.utils.Launcher;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static android.view.View.GONE;
+
 /**
  * Created by lduf0001 on 06/10/2016.
  */
 public class MainFragment extends InjectedFragment<MainComponent> implements MainContract.MainView {
     @Bind(R.id.progress) public ProgressBar progressIndicator;
     @Bind(R.id.search_result) public RecyclerView recyclerView;
+    @Bind(R.id.swipeContainer) public SwipeRefreshLayout swipe;
 
     @Inject MainContract.MainPresenter mainPresenter;
     @Inject RecyclerViewAdapter viewAdapter;
@@ -52,6 +59,7 @@ public class MainFragment extends InjectedFragment<MainComponent> implements Mai
         super.onCreate(savedInstanceState);
         getComponent().inject(this);
         setRetainInstance(true);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -65,6 +73,22 @@ public class MainFragment extends InjectedFragment<MainComponent> implements Mai
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         setupViewAdapter();
+        swipe.setOnRefreshListener(() -> mainPresenter.fetchDate());
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (R.id.refresh == item.getItemId()) {
+            mainPresenter.fetchDate();
+            return true;
+        }
+        return false;
     }
 
     private void setupViewAdapter() {
@@ -74,9 +98,7 @@ public class MainFragment extends InjectedFragment<MainComponent> implements Mai
         recyclerView.setAdapter(viewAdapter);
         recyclerView.addOnScrollListener(infinateScrollListener());
         recyclerView.addOnItemTouchListener(
-                new RecycleViewClickListener(getContext(), (view, position) -> {
-                    launcher.openDetail(itemList.get(position));
-                })
+                new RecycleViewClickListener(getContext(), (view, position) -> launcher.openDetail(itemList.get(position)))
         );
     }
 
@@ -108,8 +130,15 @@ public class MainFragment extends InjectedFragment<MainComponent> implements Mai
         }
     }
 
+    private void stopRefreshing() {
+        getActivity().runOnUiThread(() -> swipe.setRefreshing(false));
+    }
+
     @Override
     public void setProgressVisible(int visibility) {
+        if (GONE == visibility) {
+            stopRefreshing();
+        }
         progressIndicator.setVisibility(visibility);
     }
 
