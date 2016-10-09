@@ -55,8 +55,8 @@ public class AppModule {
 
     @Provides
     @Singleton
-    ConfigurationManager providesUrlGenerator(Context context, Api api){
-        return new ConfigurationManager(context, api);
+    ConfigurationManager providesUrlGenerator(Context context){
+        return new ConfigurationManager(context);
     }
 }
 

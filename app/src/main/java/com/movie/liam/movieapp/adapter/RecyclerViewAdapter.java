@@ -43,8 +43,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
         if (null == itemList) {
             return;
         }
-        String path = configurationManager.getUrl(itemList.get(position).getPosterPath(), Image.Type.POSTER);
+        Results result = itemList.get(position);
+
+        String path = configurationManager.getUrl(result.getPosterPath(), Image.Type.POSTER);
         Picasso.with(context).load(path).into(holder.photo);
+        holder.year.setText(result.getReleaseDate());
+        String genre = ConfigurationManager.genres.getGenreById(result.getGenreIds()[0]);
+        holder.genre.setText(genre);
     }
 
     public void setItems(List<Results> itemList) {

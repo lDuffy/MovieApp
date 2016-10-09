@@ -1,8 +1,6 @@
 package com.movie.liam.movieapp.utils;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.movie.liam.movieapp.R;
@@ -22,11 +20,11 @@ public class AppLauncher implements Launcher {
     }
 
     private void showFragment(Fragment fragment) {
-        FragmentManager manager = activity.getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = manager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        activity.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commitAllowingStateLoss();
     }
 
     @Override

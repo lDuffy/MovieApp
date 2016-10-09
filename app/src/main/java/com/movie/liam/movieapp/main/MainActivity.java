@@ -9,12 +9,10 @@ import com.movie.liam.movieapp.base.InjectedActivity;
 import com.movie.liam.movieapp.dagger.DaggerMainComponent;
 import com.movie.liam.movieapp.dagger.MainComponent;
 import com.movie.liam.movieapp.dagger.MainModule;
-import com.movie.liam.movieapp.utils.ConfigurationManager;
 import com.movie.liam.movieapp.utils.Launcher;
 
 public class MainActivity extends InjectedActivity<MainComponent> {
 
-    @Inject ConfigurationManager configurationManager;
     @Inject Launcher launcher;
 
     @Override
@@ -22,7 +20,6 @@ public class MainActivity extends InjectedActivity<MainComponent> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getComponent().inject(this);
-        configurationManager.fetchConfiguration();
         if (null == savedInstanceState) {
             launcher.openHome();
         }

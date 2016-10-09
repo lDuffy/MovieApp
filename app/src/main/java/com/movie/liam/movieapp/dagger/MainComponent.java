@@ -1,5 +1,6 @@
 package com.movie.liam.movieapp.dagger;
 
+import com.movie.liam.movieapp.detail.DetailFragment;
 import com.movie.liam.movieapp.main.MainActivity;
 import com.movie.liam.movieapp.main.MainFragment;
 
@@ -14,4 +15,5 @@ import dagger.Component;
 public interface MainComponent {
     void inject(MainActivity mainActivity);
     void inject(MainFragment mainFragment);
+    void inject(DetailFragment detailFragment);
 }

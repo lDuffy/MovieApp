@@ -11,12 +11,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import com.movie.liam.movieapp.api.Api;
 import com.movie.liam.movieapp.model.Configuration;
+import com.movie.liam.movieapp.model.Genres;
 import com.movie.liam.movieapp.model.Image;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by lduf0001 on 08/10/2016.
@@ -24,26 +21,25 @@ import rx.schedulers.Schedulers;
 
 public class ConfigurationManager {
 
-    private static Configuration configuration;
+    public static Configuration configuration = null;
+    public static Genres genres = null;
     private final Context context;
-    public final Api api;
 
     @Inject
-    public ConfigurationManager(Context context, Api api) {
-        this.api = api;
+    public ConfigurationManager(Context context) {
         this.context = context;
     }
 
-    public void fetchConfiguration() {
-        if (null == configuration) {
-            api.getConfiguration().subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(ConfigurationManager::setConfiguration);
-        }
+    public static void setConfiguration(Configuration configuration) {
+        ConfigurationManager.configuration = configuration;
     }
 
-    private static void setConfiguration(Configuration configuration) {
-        ConfigurationManager.configuration = configuration;
+    public static boolean hasConfiguration(){
+        return null != configuration;
+    }
+
+    public static void setGenres(Genres genres) {
+        ConfigurationManager.genres = genres;
     }
 
     public static List<Integer> getIntegerList(Collection<String> list) {
@@ -63,7 +59,7 @@ public class ConfigurationManager {
 
     private static String getSize(int density, Image.Type type) {
         List<String> list;
-        Image image =configuration.getImage();
+        Image image = configuration.getImage();
 
         switch (type) {
             case POSTER:
@@ -83,14 +79,31 @@ public class ConfigurationManager {
                 break;
 
         }
-        int index = getIndex(density, list);
+        int index = gerResourceSize(density, list);
         return configuration.getImage().getPosterSizes().get(index);
     }
 
-    private static int getIndex(int density, Collection<String> list) {
+    /*
+     * Collections.binarySearch() will return a value greater then the size of the list
+     * if the density argument is greater then the highest value in the list. This method accounts for that
+     *
+     */
+    private static int accountForOutOfBoundsIndex(int size, int index) {
+        int localIndex = index;
+        if (index > size) {
+            localIndex -= 2;
+        } else if (index == size) {
+            localIndex -= 1;
+        }
+        return localIndex - 1;
+    }
+
+    private static int gerResourceSize(int density, Collection<String> list) {
         List<Integer> intList = getIntegerList(list);
         int index = Collections.binarySearch(intList, density);
-        return -index - 1;
+        index = -index;
+        index = accountForOutOfBoundsIndex(list.size(), index);
+        return index;
     }
 
     private int getDensity() {

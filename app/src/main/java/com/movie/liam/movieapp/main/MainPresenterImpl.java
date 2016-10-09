@@ -12,9 +12,13 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import com.movie.liam.movieapp.api.Api;
+import com.movie.liam.movieapp.model.Configuration;
+import com.movie.liam.movieapp.model.Genres;
 import com.movie.liam.movieapp.model.Movies;
 import com.movie.liam.movieapp.model.Results;
+import com.movie.liam.movieapp.utils.ConfigurationManager;
 
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -50,13 +54,34 @@ public class MainPresenterImpl implements MainContract.MainPresenter {
     public void fetchDate() {
         view.setProgressVisible(View.VISIBLE);
 
-        api.list(movies.getPage())
-                .subscribeOn(Schedulers.newThread())
-                .debounce(3, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::setResponse,
-                        throwable -> view.showToast(throwable.toString()),
-                        () -> view.setProgressVisible(View.GONE));
+        if (!ConfigurationManager.hasConfiguration()) {
+            api.getConfiguration()
+                    .flatMap(this::getGenresObservable)
+                    .flatMap(this::getMovieList)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::setResponse,
+                            throwable -> view.showToast(throwable.toString()),
+                            () -> view.setProgressVisible(View.GONE));
+        } else {
+            api.list(movies.getPage())
+                    .subscribeOn(Schedulers.io())
+                    .debounce(3, TimeUnit.SECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::setResponse,
+                            throwable -> view.showToast(throwable.toString()),
+                            () -> view.setProgressVisible(View.GONE));
+        }
+    }
+
+    private Observable<Movies> getMovieList(Genres genres) {
+        ConfigurationManager.setGenres(genres);
+        return api.list(movies.getPage());
+    }
+
+    private Observable<Genres> getGenresObservable(Configuration configuration) {
+        ConfigurationManager.setConfiguration(configuration);
+        return api.getGenres();
     }
 
     private void setResponse(Movies response) {
