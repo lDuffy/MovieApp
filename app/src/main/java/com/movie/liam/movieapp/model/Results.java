@@ -116,6 +116,25 @@ public class Results implements Parcelable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if ((null == o) || (getClass() != o.getClass())) {
+            return false;
+        }
+        Results results = (Results) o;
+        return (null != id) ? id.equals(results.id) : ((null == results.id) && ((null != title) ? title.equals(results.title) : (null == results.title)));
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (null != id) ? id.hashCode() : 0;
+        result = (31 * result) + ((null != title) ? title.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(voteAverage);
         dest.writeString(backdropPath);
@@ -137,20 +156,20 @@ public class Results implements Parcelable {
     }
 
     protected Results(Parcel in) {
-       voteAverage = in.readString();
-       backdropPath = in.readString();
-       adult = in.readString();
-       id = in.readString();
-       title = in.readString();
-       overview = in.readString();
-       originalLanguage = in.readString();
-       genreIds = in.createStringArray();
-       releaseDate = in.readString();
-       originalTitle = in.readString();
-       voteCount = in.readString();
-       posterPath = in.readString();
-       video = in.readString();
-       popularity = in.readString();
+        voteAverage = in.readString();
+        backdropPath = in.readString();
+        adult = in.readString();
+        id = in.readString();
+        title = in.readString();
+        overview = in.readString();
+        originalLanguage = in.readString();
+        genreIds = in.createStringArray();
+        releaseDate = in.readString();
+        originalTitle = in.readString();
+        voteCount = in.readString();
+        posterPath = in.readString();
+        video = in.readString();
+        popularity = in.readString();
     }
 
     public static final Parcelable.Creator<Results> CREATOR = new Parcelable.Creator<Results>() {

@@ -11,9 +11,10 @@ import com.movie.liam.movieapp.model.Results;
 public class MainContract {
 
     interface MainView {
-        void showError(String error);
+        void showToast(String error);
         void populateList(List<Results> movies);
         void setProgressVisible(int visibility);
+        void invalidateAdapter();
     }
 
     public interface MainPresenter {
@@ -21,5 +22,7 @@ public class MainContract {
         void onViewDetached();
         void fetchDate();
         void fetchMoreData();
+        void sortAndInvalidate(List<Results> list);
+        List<Results> removeDuplicates(List<Results> list);
     }
 }

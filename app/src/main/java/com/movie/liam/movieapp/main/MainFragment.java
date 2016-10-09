@@ -38,6 +38,8 @@ import static android.view.View.GONE;
  * Created by lduf0001 on 06/10/2016.
  */
 public class MainFragment extends InjectedFragment<MainComponent> implements MainContract.MainView {
+
+    public static final int GRID_SIZE = 3;
     @Bind(R.id.progress) public ProgressBar progressIndicator;
     @Bind(R.id.search_result) public RecyclerView recyclerView;
     @Bind(R.id.swipeContainer) public SwipeRefreshLayout swipe;
@@ -85,14 +87,14 @@ public class MainFragment extends InjectedFragment<MainComponent> implements Mai
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (R.id.refresh == item.getItemId()) {
-            mainPresenter.fetchDate();
+            mainPresenter.sortAndInvalidate(itemList);
             return true;
         }
         return false;
     }
 
     private void setupViewAdapter() {
-        gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+        gridLayoutManager = new GridLayoutManager(getActivity(), GRID_SIZE);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(viewAdapter);
@@ -116,14 +118,15 @@ public class MainFragment extends InjectedFragment<MainComponent> implements Mai
     }
 
     @Override
-    public void showError(String error) {
-        Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
+    public void showToast(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void populateList(List<Results> newItems) {
         int index = itemList.size();
         itemList.addAll(newItems);
+        itemList = mainPresenter.removeDuplicates(itemList);
         viewAdapter.setItems(itemList);
         for (int i = index; i < itemList.size(); i++) {
             viewAdapter.notifyItemInserted(index);
@@ -140,6 +143,11 @@ public class MainFragment extends InjectedFragment<MainComponent> implements Mai
             stopRefreshing();
         }
         progressIndicator.setVisibility(visibility);
+    }
+
+    @Override
+    public void invalidateAdapter() {
+        viewAdapter.notifyDataSetChanged();
     }
 
     private InfiniteScrollListener infinateScrollListener() {
