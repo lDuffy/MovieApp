@@ -22,6 +22,14 @@ import com.squareup.picasso.Picasso;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+/**
+ * Created by lduf0001 on 06/10/2016.
+ * Fragment for showing movie details.
+ * NOTE: this class does not follow MVP because there is no business logic here other then displaying information.
+ * If business logic is added a presenter should be added.
+ */
+
+
 public class DetailFragment extends InjectedFragment<MainComponent> {
 
     @Bind(R.id.imageView) public ImageView image;

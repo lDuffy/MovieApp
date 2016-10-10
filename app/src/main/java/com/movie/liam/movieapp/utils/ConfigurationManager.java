@@ -17,6 +17,8 @@ import com.movie.liam.movieapp.model.Image;
 
 /**
  * Created by lduf0001 on 08/10/2016.
+ * class for holding reference to configuration and genre.
+ * This class also handles getting the correct image url for device density.
  */
 
 public class ConfigurationManager {

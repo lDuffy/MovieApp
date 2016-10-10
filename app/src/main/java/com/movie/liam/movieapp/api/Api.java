@@ -10,6 +10,7 @@ import rx.Observable;
 
 /**
  * Created by lduf0001 on 06/10/2016.
+ * Api interface for network requests. Works with retrofit and rxJava
  */
 public interface Api {
     @GET("3/movie/popular")

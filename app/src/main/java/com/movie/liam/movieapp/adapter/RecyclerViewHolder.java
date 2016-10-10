@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by lduf0001 on 08/10/2016.
+ * View holder for RecyclerViewAdapter
  */
 
 public class RecyclerViewHolder extends RecyclerView.ViewHolder {

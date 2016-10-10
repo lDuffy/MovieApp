@@ -10,6 +10,7 @@ import com.movie.liam.movieapp.model.Results;
 
 /**
  * Created by lduf0001 on 08/10/2016.
+ * Routing class for dealing with navigation
  */
 
 public class AppLauncher implements Launcher {

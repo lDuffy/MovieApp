@@ -8,6 +8,7 @@ import com.movie.liam.movieapp.dagger.ComponentProvider;
 
 /**
  * Created by lduf0001 on 08/10/2016.
+ * Abstract activity to reduce boiler plate code for registering class with dagger
  */
 
 public abstract class InjectedActivity<T> extends AppCompatActivity

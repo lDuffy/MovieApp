@@ -25,6 +25,7 @@ import rx.schedulers.Schedulers;
 
 /**
  * Created by lduf0001 on 06/10/2016.
+ * presenter for handeling business logic of MainFragment
  */
 
 public class MainPresenterImpl implements MainContract.MainPresenter {

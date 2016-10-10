@@ -15,6 +15,7 @@ import dagger.Provides;
 
 /**
  * Created by lduf0001 on 06/10/2016.
+ * Module for per Activity objects
  */
 
 @Module

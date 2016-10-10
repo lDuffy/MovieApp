@@ -14,6 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by lduf0001 on 06/10/2016.
+ * Class for building rest adapter and Api object
  */
 
 public final class RestService {

@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso;
 
 /**
  * Created by lduf0001 on 08/10/2016.
+ * Adapter for movie list items. found in MainFragment
  */
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {

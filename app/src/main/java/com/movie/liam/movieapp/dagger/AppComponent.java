@@ -10,6 +10,7 @@ import dagger.Component;
 
 /**
  * Created by lduf0001 on 06/10/2016.
+ * Component for application global objects
  */
 
 @Singleton

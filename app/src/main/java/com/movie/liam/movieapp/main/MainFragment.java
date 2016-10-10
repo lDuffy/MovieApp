@@ -36,6 +36,7 @@ import static android.view.View.GONE;
 
 /**
  * Created by lduf0001 on 06/10/2016.
+ * Fragment for displkaying popular movie list.
  */
 public class MainFragment extends InjectedFragment<MainComponent> implements MainContract.MainView {
 

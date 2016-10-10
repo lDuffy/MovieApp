@@ -8,6 +8,7 @@ import dagger.Component;
 
 /**
  * Created by lduf0001 on 06/10/2016.
+ * Component for Per Activity objects
  */
 
 @PerActivity

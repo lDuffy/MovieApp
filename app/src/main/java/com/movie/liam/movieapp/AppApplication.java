@@ -8,6 +8,7 @@ import com.movie.liam.movieapp.dagger.DaggerAppComponent;
 
 /**
  * Created by lduf0001 on 08/10/2016.
+ * Global application class.
  */
 
 public class AppApplication extends Application {

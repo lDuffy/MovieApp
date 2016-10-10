@@ -10,6 +10,10 @@ import com.movie.liam.movieapp.dagger.DaggerMainComponent;
 import com.movie.liam.movieapp.dagger.MainComponent;
 import com.movie.liam.movieapp.dagger.MainModule;
 import com.movie.liam.movieapp.utils.Launcher;
+/**
+ * Created by lduf0001 on 10/10/2016.
+ * Activity container for main/detail fragmnt
+ */
 
 public class MainActivity extends InjectedActivity<MainComponent> {
 
