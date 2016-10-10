@@ -19,6 +19,7 @@ import com.movie.liam.movieapp.model.Results;
 import com.movie.liam.movieapp.utils.ConfigurationManager;
 
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -59,7 +60,7 @@ public class MainPresenterImpl implements MainContract.MainPresenter {
                     .flatMap(this::getGenresObservable)
                     .flatMap(this::getMovieList)
                     .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .observeOn(mainScheduler())
                     .subscribe(this::setResponse,
                             throwable -> view.showToast(throwable.toString()),
                             () -> view.setProgressVisible(View.GONE));
@@ -67,11 +68,15 @@ public class MainPresenterImpl implements MainContract.MainPresenter {
             api.list(movies.getPage())
                     .subscribeOn(Schedulers.io())
                     .debounce(3, TimeUnit.SECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .observeOn(mainScheduler())
                     .subscribe(this::setResponse,
                             throwable -> view.showToast(throwable.toString()),
                             () -> view.setProgressVisible(View.GONE));
         }
+    }
+
+    public Scheduler mainScheduler() {
+        return AndroidSchedulers.mainThread();
     }
 
     private Observable<Movies> getMovieList(Genres genres) {
