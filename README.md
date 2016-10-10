@@ -18,14 +18,14 @@ When th user click on a list item, the corresponding list object  is passed to a
 
 ## Libraries
 
-Retrofit 2 : networking.
-RxJava : reactive programming.
-Mockito/Junit : testing.
-Picasso : image loading, caching.
-ButterKnife : view injection.
-Dagger2 : dependency injection.
-Gson : json serialization.
-Infinite Scroll : feed lazy loading.
+* Retrofit 2 : networking.
+* RxJava : reactive programming.
+* Mockito/Junit : testing.
+* Picasso : image loading, caching.
+* ButterKnife : view injection.
+* Dagger2 : dependency injection.
+* Gson : json serialization.
+* Infinite Scroll : feed lazy loading.
 
 
 ## Installation
