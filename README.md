@@ -34,9 +34,9 @@ Clone project. Open in Android Studio. build.
 
 ## API Reference
 
-Configuration api : Pulls global configuration file which contains relevant image sizes, image url path etc.
-Genres api: Pulls list of genres which is needed for displaying the genre of a movie.
-Movies api: pulls a paginated list of popular movies.
+* Configuration api : Pulls global configuration file which contains relevant image sizes, image url path etc.
+* Genres api: Pulls list of genres which is needed for displaying the genre of a movie.
+* Movies api: pulls a paginated list of popular movies.
 
 ## Tests
 
