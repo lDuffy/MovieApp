@@ -10,6 +10,16 @@ import com.google.gson.annotations.SerializedName;
 
 public class Image {
 
+    public Image(List<String> posterSizes, List<String> backdropSizes, List<String> stillSizes, List<String> logoSizes, String secureBaseUrl, String baseUrl, List<String> profileSizes) {
+        this.posterSizes = posterSizes;
+        this.backdropSizes = backdropSizes;
+        this.stillSizes = stillSizes;
+        this.logoSizes = logoSizes;
+        this.secureBaseUrl = secureBaseUrl;
+        this.baseUrl = baseUrl;
+        this.profileSizes = profileSizes;
+    }
+
     public enum Type{
         POSTER,BACKDROP,STILL,LOGO
     }

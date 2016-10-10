@@ -14,6 +14,11 @@ public class Configuration {
 
     private Image images;
 
+    public Configuration(String[] changeKeys, Image images) {
+        this.changeKeys = changeKeys;
+        this.images = images;
+    }
+
     public String[] getChangeKeys() {
         return changeKeys;
     }

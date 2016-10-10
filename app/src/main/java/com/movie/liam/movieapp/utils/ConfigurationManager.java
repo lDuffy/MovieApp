@@ -34,7 +34,7 @@ public class ConfigurationManager {
         ConfigurationManager.configuration = configuration;
     }
 
-    public static boolean hasConfiguration(){
+    public static boolean hasConfiguration() {
         return null != configuration;
     }
 
@@ -90,9 +90,7 @@ public class ConfigurationManager {
      */
     private static int accountForOutOfBoundsIndex(int size, int index) {
         int localIndex = index;
-        if (index > size) {
-            localIndex -= 2;
-        } else if (index == size) {
+        if (index >= size) {
             localIndex -= 1;
         }
         return localIndex - 1;
@@ -101,12 +99,12 @@ public class ConfigurationManager {
     private static int gerResourceSize(int density, Collection<String> list) {
         List<Integer> intList = getIntegerList(list);
         int index = Collections.binarySearch(intList, density);
-        index = -index;
+        index = Math.abs(index);
         index = accountForOutOfBoundsIndex(list.size(), index);
         return index;
     }
 
-    private int getDensity() {
+    public int getDensity() {
         DisplayMetrics metrics = new DisplayMetrics();
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         wm.getDefaultDisplay().getMetrics(metrics);
