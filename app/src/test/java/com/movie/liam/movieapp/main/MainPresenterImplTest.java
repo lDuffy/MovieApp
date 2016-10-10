@@ -1,5 +1,7 @@
 package com.movie.liam.movieapp.main;
 
+import android.view.View;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +21,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -48,6 +51,8 @@ public class MainPresenterImplTest {
         doReturn(Observable.just(genres)).when(api).getGenres();
         doReturn(Observable.just(movies)).when(api).list(anyString());
         presenter.fetchDate();
+        verify(view, times(1)).setProgressVisible(View.VISIBLE);
+        verify(view, times(1)).setProgressVisible(View.GONE);
         verify(view).populateList(anyList());
 
     }
