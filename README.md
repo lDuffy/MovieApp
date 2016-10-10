@@ -1,20 +1,20 @@
 ## Synopsis
 
-This is a test application which pulls information on popular movies from the online movie database https://www.themoviedb.org/
+This is a test application which pulls information about popular movies from the online movie database: https://www.themoviedb.org/
 
 The application uses MVP architecture and dependency injection throughout to separate business/view logic and make for easier testing.
 
 Routing is organized using extendable Launcher class.
 
-When the application starts i check for a global configuration file. If it is not found I fetch the file and the genre list before making the movie list request.
+When the application starts it checks for a global configuration file. If it is not found it fetches the file and the genre list before making the movie list request.
 
-I implemented lazy loading of the paginated list which loads more items when the user scrolls to the bottom of the list.
+It uses lazy loading on the paginated feed which loads more items when the user scrolls to the bottom of the list.
 
 The list shows the movie image, release date and genre.
 
-I also implemented a simple sorting feature to sort the downloaded list by popularity.
+It also has a simple sorting feature to sort the downloaded list by popularity.
 
-When th user click on a list item I pass the corresponding list object to a detail fragment for further viewing.
+When th user click on a list item, the corresponding list object  is passed to a detail fragment for further viewing.
 
 ## Libraries
 
